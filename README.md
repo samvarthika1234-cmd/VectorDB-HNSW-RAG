@@ -1,9 +1,8 @@
-# VectorDB — Build a Vector Database from Scratch in C++
+# VectorDB-HNSW-RAG
 
-A fully working **Vector Database** built from scratch in C++ with a web UI.  
-Implements **HNSW**, **KD-Tree**, and **Brute Force** search algorithms side-by-side, plus a **RAG pipeline** powered by a local LLM via Ollama.
+A C++ vector search and Retrieval-Augmented Generation (RAG) system using HNSW, KD-Tree, Brute Force search, and Ollama-powered embeddings.
 
-> Built as an educational project to show how production vector databases like Pinecone, Weaviate, and Chroma actually work under the hood.
+> A hands-on project for exploring semantic search, vector embeddings, nearest-neighbor search algorithms, and Retrieval-Augmented Generation (RAG).
 
 ---
 
@@ -48,142 +47,34 @@ Answer
 
 ## Prerequisites
 
-You need **3 things** installed on your Windows laptop:
-
-1. **MSYS2** (gives you g++ compiler)
-2. **Git**
-3. **Ollama** (runs the local AI models)
+* C++17 Compiler (g++)
+* Git
+* Ollama
+* nomic-embed-text
+* llama3.2
 
 ---
 
-## Step-by-Step Setup (Windows)
+## Quick Start
 
-### Step 1 — Install MSYS2 (C++ Compiler)
-
-1. Go to **https://www.msys2.org** and download the installer
-2. Run the installer, keep default path (`C:\msys64`)
-3. After install, open **MSYS2 UCRT64** from Start Menu (the orange icon)
-4. Run these commands inside the MSYS2 terminal:
+Compile:
 
 ```bash
-pacman -Syu
-```
-*(Close and reopen the terminal if it asks you to)*
-
-```bash
-pacman -S mingw-w64-ucrt-x86_64-gcc
-```
-
-5. Add g++ to your Windows PATH:
-   - Press `Win + R`, type `sysdm.cpl`, press Enter
-   - Click **Advanced** → **Environment Variables**
-   - Under **System variables**, find **Path**, click **Edit**
-   - Click **New** and add: `C:\msys64\ucrt64\bin`
-   - Click OK on all windows
-   - **Open a new PowerShell** and verify:
-   ```
-   g++ --version
-   ```
-   You should see something like `g++ (GCC) 15.x.x`
-
----
-
-### Step 2 — Install Git
-
-1. Go to **https://git-scm.com/download/win** and download Git for Windows
-2. Run the installer with default settings
-3. Verify in PowerShell:
-```
-git --version
-```
-
----
-
-### Step 3 — Install Ollama (Local AI Models)
-
-1. Go to **https://ollama.com** and click **Download for Windows**
-2. Run the installer
-3. Ollama starts automatically in the system tray
-4. Open **PowerShell** and pull the two required models:
-
-```powershell
-ollama pull nomic-embed-text
-```
-*(~274 MB — this is the embedding model)*
-
-```powershell
-ollama pull llama3.2
-```
-*(~2 GB — this is the language model)*
-
-5. Verify Ollama is running:
-```powershell
-ollama list
-```
-You should see both models listed.
-
-> **Minimum specs for Ollama:** 8GB RAM recommended. The models will use ~3GB total.
-
----
-
-### Step 4 — Clone the Repository
-
-Open **PowerShell** and run:
-
-```powershell
-git clone https://github.com/YOUR_USERNAME/VectorDB.git
-cd VectorDB
-```
-
-*(Replace `YOUR_USERNAME` with the actual GitHub username)*
-
----
-
-### Step 5 — Compile the C++ Server
-
-Inside the `VectorDB` folder, run:
-
-```powershell
 g++ -std=c++17 -O2 main.cpp -o db -lws2_32
 ```
 
-This produces `db.exe`. It takes about 10–20 seconds.
+Run:
 
-> **Troubleshooting:**
-> - `g++: command not found` → MSYS2 not in PATH, redo Step 1 point 5
-> - `undefined reference to WSA...` → missing `-lws2_32` flag, add it
-> - Takes too long? Remove `-O2` for faster (but slower executable) compile
-
----
-
-### Step 6 — Run Everything
-
-**Terminal 1** — Start Ollama (if not already running):
-```powershell
-ollama serve
-```
-*(If Ollama is already in the system tray, skip this)*
-
-**Terminal 2** — Start the VectorDB server:
-```powershell
+```bash
 ./db
 ```
 
-You should see:
-```
-=== VectorDB Engine ===
-http://localhost:8080
-20 demo vectors | 16 dims | HNSW+KD-Tree+BruteForce
-Ollama: ONLINE
-  embed model: nomic-embed-text  gen model: llama3.2
-```
+Open:
 
-**Open your browser** and go to:
-```
+```text
 http://localhost:8080
 ```
 
----
 
 ## Using the Application
 
